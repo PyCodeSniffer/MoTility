@@ -125,7 +125,6 @@ class MotilityApp(App):
         self.shortcuts = {}
         self.current_page = 0
         self.all_buttons_data = [
-            ("&Beenden", "exit"),
             ("&Api-Shop Scrapen", "api_scrape")
         ]
         self.max_per_page = 6
