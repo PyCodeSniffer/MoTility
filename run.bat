@@ -8,6 +8,7 @@ python --version >nul 2>&1
 
 if %ERRORLEVEL% equ 0 (
     echo [OK] Python erkannt. Starte MOTILITY...
+    git pull
     python -m pip install -r py\requirements.txt
     python py\main.py
 ) else (
