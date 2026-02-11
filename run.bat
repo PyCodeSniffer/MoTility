@@ -20,4 +20,3 @@ if %ERRORLEVEL% equ 0 (
         echo [FEHLER] %INSTALLER% fehlt!
     )
 )
-pause
