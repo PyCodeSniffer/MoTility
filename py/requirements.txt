@@ -1,2 +1,3 @@
 textual
 beautifulsoup4
+zebrafy

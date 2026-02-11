@@ -6,6 +6,7 @@ from textual.screen import ModalScreen
 from textual.binding import Binding
 
 from scraper import run_scraper
+from eplZplConv import convertImgToEplZpl
 from utils import create_smart_button
 import sys
 
@@ -47,6 +48,44 @@ class LinkInputScreen(ModalScreen):
         if link:
             self.notify(f"Scrape gestartet...", title="MOTILITY")
             threading.Thread(target=run_scraper, args=(link,), daemon=True).start()
+            input_widget.value = ""
+        input_widget.focus()
+
+class EplZplConvScreen(ModalScreen):
+    BINDINGS = [("escape", "close_dialog", "Schließen")]
+
+    def compose(self) -> ComposeResult:
+        with Center():
+            with Middle():
+                with Vertical(id="modal-dialog"):
+                    self.notify(f"IMAGE MAGIC MUSS INSTALLIERT UND AUS CMD AUFRUFBAR SEIN! Siehe README", title="MOTILITY", severity="warning")
+                    yield Label("🔗 Pfad eingeben (Oder Drag'n Drop):", id="modal-title")
+                    yield Input(placeholder="Pfad hier einfügen...", id="link-field")
+                    with Horizontal(id="modal-buttons"):
+                        yield Button("Abbrechen", variant="error", id="cancel_btn")
+                        yield Button("Convertieren", variant="success", id="ok_btn")
+
+    def on_mount(self):
+        self.query_one("#link-field").focus()
+
+    def action_close_dialog(self):
+        self.app.pop_screen()
+
+    def on_button_pressed(self, event: Button.Pressed):
+        if event.button.id == "ok_btn":
+            self.process_link()
+        elif event.button.id == "cancel_btn":
+            self.app.pop_screen()
+
+    def on_input_submitted(self, event: Input.Submitted):
+        self.process_link()
+
+    def process_link(self):
+        input_widget = self.query_one("#link-field", Input)
+        link = input_widget.value.strip()
+        if link:
+            self.notify(f"Converter gestartet...", title="MOTILITY")
+            threading.Thread(target=convertImgToEplZpl, args=(link,), daemon=True).start()
             input_widget.value = ""
         input_widget.focus()
 
@@ -130,7 +169,8 @@ class MotilityApp(App):
             #    HIER NEUE BUTTONS HINZUFÜGEN
             #
             #
-            ("&Api-Shop Scrapen", "api_scrape")
+            ("&Api-Shop Scrapen", "api_scrape"),
+            ("&Epl-Zpl Converter", "pl_convert")
         ]
         self.max_per_page = 6
 
@@ -187,6 +227,8 @@ class MotilityApp(App):
             self.exit()
         elif action_id == "api_scrape":
             self.push_screen(LinkInputScreen())
+        elif action_id == "pl_convert":
+            self.push_screen(EplZplConvScreen())
 
     def on_button_pressed(self, event: Button.Pressed):
         self.handle_action(event.button.id)
