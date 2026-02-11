@@ -24,7 +24,7 @@ class LinkInputScreen(ModalScreen):
                     yield Input(placeholder="URL hier einfügen...", id="link-field")
                     with Horizontal(id="modal-buttons"):
                         yield Button("Abbrechen", variant="error", id="cancel_btn")
-                        yield Button("Hinzufügen", variant="success", id="ok_btn")
+                        yield Button("Scrapen", variant="success", id="ok_btn")
 
     def on_mount(self):
         self.query_one("#link-field").focus()
