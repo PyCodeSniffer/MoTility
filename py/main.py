@@ -125,6 +125,11 @@ class MotilityApp(App):
         self.shortcuts = {}
         self.current_page = 0
         self.all_buttons_data = [
+            #
+            #
+            #    HIER NEUE BUTTONS HINZUFÜGEN
+            #
+            #
             ("&Api-Shop Scrapen", "api_scrape")
         ]
         self.max_per_page = 6
@@ -172,6 +177,11 @@ class MotilityApp(App):
             if key in self.shortcuts:
                 self.handle_action(self.shortcuts[key])
 
+    #
+    #
+    # HIER HINZUFÜGEN, WAS PASSIERT WENN DER BUTTON GEDRÜCKT WURDE
+    #
+    #
     def handle_action(self, action_id: str):
         if action_id == "exit":
             self.exit()
