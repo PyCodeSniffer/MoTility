@@ -10,8 +10,6 @@ if %ERRORLEVEL% equ 0 (
     echo [OK] Python erkannt. Starte MOTILITY...
     git pull
     python -m pip install -r py\requirements.txt
-
-    pause>nul
     python py\main.py
 ) else (
     echo [!] Python nicht gefunden.
@@ -22,4 +20,3 @@ if %ERRORLEVEL% equ 0 (
         echo [FEHLER] %INSTALLER% fehlt!
     )
 )
-pause>nul
