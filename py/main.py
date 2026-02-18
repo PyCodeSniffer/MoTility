@@ -6,10 +6,13 @@ from textual.screen import ModalScreen
 from textual.binding import Binding
 
 from scraper import run_scraper
+from scraper import open_folder
 from eplZplConv import convertImgToEplZpl
 from utils import create_smart_button
 import sys
+import os
 
+firstRun = False
 if sys.platform == "win32":
     # \x1b[8;H;Wt  (H=Lines, W=Columns)
     sys.stdout.write("\x1b[8;16;108t")
@@ -43,6 +46,11 @@ class LinkInputScreen(ModalScreen):
         self.process_link()
 
     def process_link(self):
+        global firstRun
+        if firstRun == False:
+            target_path = os.path.join(os.getcwd(), "img")
+            open_folder(target_path)
+            firstRun = True
         input_widget = self.query_one("#link-field", Input)
         link = input_widget.value.strip()
         if link:

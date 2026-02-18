@@ -45,7 +45,7 @@ def run_scraper(url_input):
     # Ordnernamen generieren und säubern
     clean_url = url.split('/')[-1].split('?')[0]
     site_folder_name = re.sub(r'[<>:"/\\|?*]', '-', clean_url)
-    target_path = os.path.join(os.getcwd(), root_img_folder, f"{art_num}_{site_folder_name}")
+    target_path = os.path.join(os.getcwd(), root_img_folder)
     
     if not os.path.exists(target_path):
         os.makedirs(target_path)
@@ -103,10 +103,6 @@ def run_scraper(url_input):
                 continue
 
         # Explorer nur öffnen, wenn Bilder gefunden wurden
-        if count > 0:
-            open_folder(target_path)
-        else:
-            print(f"Keine Bilder gefunden für: {url_input}")
 
     except Exception as e:
         print(f"Scraper-Fehler: {e}")
